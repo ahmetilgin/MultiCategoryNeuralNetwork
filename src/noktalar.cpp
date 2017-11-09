@@ -16,8 +16,6 @@ void Noktalar::noktalarEkranaBas() {
 double Noktalar::getDegerler(int index){
     return this->degerler[index];
 }
-void Noktalar::setDegerler(double x, double y, double z){
-    this->degerler[0] = x;
-    this->degerler[1] = y;
-    this->degerler[2] = z;
+void Noktalar::setDegerler(int index,double x){
+    this->degerler[index] = x;
 }

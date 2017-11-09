@@ -1,4 +1,4 @@
-#ifndef SINIRAGI_H
+﻿#ifndef SINIRAGI_H
 #define SINIRAGI_H
 #include "noron.h"
 #include "siniflar.h"
@@ -9,12 +9,12 @@ using namespace std;
 #define ORNEKSAYISI 2
 #define GIRISSAYISI 3
 #define CIKISSAYISI 1
-#define SINIFSAYISI 4
+#define SINIFSAYISI 2
 #define ARAKATMANSAYISI 2
 #define CIKISNORONSAYISI 1
 #define FTUREVI 0.5
 #define KATMANSAYISI 1
-#define GIRISKATMANINORONSAYISI 4
+#define GIRISKATMANINORONSAYISI 5
 #define EN 600
 #define BOY 600
 
@@ -28,6 +28,8 @@ class SinirAgi
     double beklenenHataMiktari = 0.1;
     double mu = 1.0;
     double suAnkiHataMiktari=0;
+    double standartSapma[SINIFSAYISI][GIRISSAYISI];
+    double ortalama[SINIFSAYISI][GIRISSAYISI];
 
 
 public:
@@ -43,10 +45,10 @@ public:
     double getHataMiktari();
     void setHata(double hataMiktari);
     double hataliysamDuzelt();
-
-
-
-
+    void veriSetiniNormalizeEt();
+    void standartSapmaHesabi();
+    void ortalamaHesabi();
+    void printStandartSapma(int index);
 };
 
 #endif // SINIRAGI_H

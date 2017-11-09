@@ -1,10 +1,10 @@
-#include <iostream>
+﻿#include <iostream>
 #include "headers/siniragi.h"
 #include <GL/freeglut.h>
 using namespace std;
+#include <unistd.h>
 
-
-
+#include <thread>
 #define EN 600
 #define BOY 600
 static int pencere;
@@ -73,8 +73,12 @@ void bolgeBelirle(int x,int y){
         float fark = BOY/2;
         float degerX = (2*(x-fark)*pixel);
         float degerY = (2*(fark-y)*pixel);
-        multiCategory->Sinif[secenek-1].noktaEkle(degerX,degerY,-1);
-
+        Noktalar nokta;
+        nokta.setDegerler(0,degerX);
+        nokta.setDegerler(1,degerY);
+        nokta.setDegerler(2,-1);
+        nokta.noktalarEkranaBas();
+        multiCategory->Sinif[secenek-1].noktaEkle(nokta);
 }
 
 
@@ -88,14 +92,16 @@ void mouse(int a, int b, int x, int y)
 }
 
 void menu(int say){
+
+
     if(say == 0){
        glutDestroyWindow(pencere);
        exit(0);
      }else{
        secenek = say;
-     }
-   glutPostRedisplay();
 
+
+     }
 }
 void menuOlustur(){
        string  a = "Class ";
@@ -105,17 +111,28 @@ void menuOlustur(){
           ss<<a<<i;
           glutAddMenuEntry(ss.str().c_str(),i);
           ss.str("");
-   }
-   glutAddMenuEntry("Hesapla",SINIFSAYISI+1);
-   glutAttachMenu(GLUT_RIGHT_BUTTON);
+     }
+     glutAddMenuEntry("Hesapla",SINIFSAYISI+1);
+     glutAddMenuEntry("Normalize Et",SINIFSAYISI+2);
+
+     glutAttachMenu(GLUT_RIGHT_BUTTON);
 }
 
+void ogrenme(){
+    multiCategory->ogrenmeBaslat();
+}
 
 void display()
 {
-    if(secenek ==SINIFSAYISI + 1){
-    multiCategory->ogrenmeBaslat();
-    secenek = 1;
+    if(secenek == SINIFSAYISI+2){
+        multiCategory->veriSetiniNormalizeEt();
+        secenek = 1;
+    }
+    if(secenek==SINIFSAYISI+1){
+
+        thread ogrenmeBaslat (ogrenme);
+        ogrenmeBaslat.detach();
+        secenek = 1;
     }
     glClear(GL_COLOR_BUFFER_BIT);
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -195,7 +212,7 @@ void display()
 
             }
 
-             noktam =  multiCategory->Sinif[k].sinifaAitNoktaGet(ak);
+            noktam =  multiCategory->Sinif[k].sinifaAitNoktaGet(ak);
             glVertex2f(noktam.getDegerler(0),noktam.getDegerler(1));
         }
       }
@@ -205,7 +222,7 @@ void display()
     for(int i = 0; i < KATMANSAYISI ; i++){
 
         //cout<<"Katmandaki Noron Sayisi"<<katmandakiNoronSayisi<<endl;
-        for(int j = 0; j < GIRISKATMANINORONSAYISI; j++){
+        for(int j = 0; j < SINIFSAYISI; j++){
             switch(j){
                 case 0 : glColor3f(0,0,0);
                          break;
@@ -230,7 +247,7 @@ void display()
             double b = multiCategory->noron[i][j].getGirisAgirligi(1);
             double c = multiCategory->noron[i][j].getGirisAgirligi(2);
            // cout<<"A: "<<a<<"B :"<<b<<" C: "<<c<<endl;
-            for(double x = -1; x < 1; x = x + 0.001){
+            for(double x = -1; x < 1; x = x + 0.0001){
               glVertex2f(x,(a*x-c)/(-b));
             }
             glEnd();

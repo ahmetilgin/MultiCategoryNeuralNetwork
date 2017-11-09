@@ -10,7 +10,7 @@ public:
     Noktalar();
     void noktalarEkranaBas();
     double getDegerler(int index);
-    void setDegerler(double x, double y, double z);
+    void setDegerler(int index,double x);
 
 };
 

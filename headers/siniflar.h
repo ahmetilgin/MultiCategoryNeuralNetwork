@@ -13,13 +13,14 @@ class Siniflar
     double * beklenenDeger;
 public:
     Siniflar();
-    void noktaEkle(double x, double y, double z);
+    void noktaEkle(Noktalar nokta);
     void sinifAitNoktalariGoster();
     void beklenenDegerSet(int sinifSayisi,int sinifIndex);
     double beklenenDegerGet(int x);
     Noktalar sinifaAitNoktaGet(int index);
     int getOrnekSayisi();
     void beklenenDegerleriEkranaBas(int sinifSayisi);
+    void sinifaAitNoktaSet(int index,Noktalar nokta);
 
 
 
